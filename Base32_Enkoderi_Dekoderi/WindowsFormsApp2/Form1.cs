@@ -44,9 +44,53 @@ namespace WindowsFormsApp2
             while ((sb.Length % 5 != 0) || (sb.Length % 8 != 0))
             { sb.Append(0); }
             string krye = sb.ToString();
-            
 
-           txtEnkoduar.Text = kryesorja.ToString();
+            for (numri = 0; numri < krye.Length; numri++)
+            {
+                karakteri.Append(krye[numri]);
+
+                if (karakteri.Length % 5 == 0)
+                {
+                    if (karakteri.ToString() == "00000")
+                    {
+                        kryesorja.Append("=");
+                    }
+                    else
+                    {
+                        char[] array = (karakteri.ToString()).ToCharArray();
+
+                        Array.Reverse(array);
+
+                        int sum = 0;
+
+                        for (int i = 0; i < array.Length; i++)
+                        {
+                            if (array[i] == '1')
+                            {
+
+                                if (i == 0)
+                                {
+                                    sum += 1;
+                                }
+                                else
+                                {
+                                    sum += (int)Math.Pow(2, i);
+                                }
+                            }
+
+                        }
+                        char[] digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".ToCharArray();
+                        kryesorja.Append(digits[sum]);
+                    }
+                }
+                if (karakteri.Length == 5)
+                {
+                    karakteri.Clear();
+                }
+            }
+
+
+            txtEnkoduar.Text = kryesorja.ToString();
 
             vlera = kryesorja.ToString();
         }
