@@ -111,6 +111,37 @@ namespace WindowsFormsApp2
 
 
             txtDekoduar.Text = encoding.GetString(bArr);
+            StringBuilder sb = new StringBuilder();
+            StringBuilder karakteri = new StringBuilder();
+            string konverto;
+
+            foreach (char c in (vlera).ToCharArray())
+            {
+                sb.Append(Convert.ToChar(c));
+
+            }
+            char[] digits = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '2', '3', '4', '5', '6', '7' };
+            konverto = sb.ToString();
+            for (int i = 0; i < konverto.Length; i++)
+            {
+                for (int j = 0; j < digits.Length; j++)
+                {
+                    (konverto).TrimEnd('=');
+                    if (digits[j] == sb[i])
+                    {
+                        karakteri.Append(Convert.ToString(j, 2).PadLeft(5, '0'));
+
+                    }
+
+
+                }
+
+            }
+            while (karakteri.Length % 8 != 0)
+            {
+                karakteri.Append(0);
+            }
+            string rsa = karakteri.ToString();
 
         }
     }
