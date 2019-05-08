@@ -98,19 +98,6 @@ namespace WindowsFormsApp2
 
         private void btnDekodo_Click(object sender, EventArgs e)
         {
-            
-          
-            StringBuilder builder = new StringBuilder();
-            byte[] bArr = new byte[rsa.Length / 8];
-            for (int i = 0; i < rsa.Length/8; i ++)
-            {
-                String part = rsa.Substring(i * 8, 8);
-                bArr[i] += Convert.ToByte(part, 2);
-            }
-            System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
-
-
-            txtDekoduar.Text = encoding.GetString(bArr);
             StringBuilder sb = new StringBuilder();
             StringBuilder karakteri = new StringBuilder();
             string konverto;
@@ -142,6 +129,18 @@ namespace WindowsFormsApp2
                 karakteri.Append(0);
             }
             string rsa = karakteri.ToString();
+
+            StringBuilder builder = new StringBuilder();
+            byte[] bArr = new byte[rsa.Length / 8];
+            for (int i = 0; i < rsa.Length / 8; i++)
+            {
+                String part = rsa.Substring(i * 8, 8);
+                bArr[i] += Convert.ToByte(part, 2);
+            }
+            System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+
+
+            txtDekoduar.Text = encoding.GetString(bArr);
 
         }
     }
