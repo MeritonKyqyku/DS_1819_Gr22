@@ -51,7 +51,7 @@ namespace WindowsFormsApp2
 
                 if (karakteri.Length % 5 == 0)
                 {
-                    if (karakteri.ToString() == "00000")
+                    if ((karakteri.ToString() == "00000")&&(numri>(krye.Length-25)))
                     {
                         kryesorja.Append("=");
                     }

@@ -1,0 +1,10 @@
+C:\Users\Meriton Kycyku\Documents\GitHub\DS_1819_Gr22\Base32_Enkoderi_Dekoderi\WindowsFormsApp2\bin\Debug\WindowsFormsApp2.exe.config
+C:\Users\Meriton Kycyku\Documents\GitHub\DS_1819_Gr22\Base32_Enkoderi_Dekoderi\WindowsFormsApp2\bin\Debug\WindowsFormsApp2.exe
+C:\Users\Meriton Kycyku\Documents\GitHub\DS_1819_Gr22\Base32_Enkoderi_Dekoderi\WindowsFormsApp2\bin\Debug\WindowsFormsApp2.pdb
+C:\Users\Meriton Kycyku\Documents\GitHub\DS_1819_Gr22\Base32_Enkoderi_Dekoderi\WindowsFormsApp2\obj\Debug\Base32_Enkoderi_Dekoderi.csprojAssemblyReference.cache
+C:\Users\Meriton Kycyku\Documents\GitHub\DS_1819_Gr22\Base32_Enkoderi_Dekoderi\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Enkoderi_Dekoderi_Base32.resources
+C:\Users\Meriton Kycyku\Documents\GitHub\DS_1819_Gr22\Base32_Enkoderi_Dekoderi\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Properties.Resources.resources
+C:\Users\Meriton Kycyku\Documents\GitHub\DS_1819_Gr22\Base32_Enkoderi_Dekoderi\WindowsFormsApp2\obj\Debug\Base32_Enkoderi_Dekoderi.csproj.GenerateResource.cache
+C:\Users\Meriton Kycyku\Documents\GitHub\DS_1819_Gr22\Base32_Enkoderi_Dekoderi\WindowsFormsApp2\obj\Debug\Base32_Enkoderi_Dekoderi.csproj.CoreCompileInputs.cache
+C:\Users\Meriton Kycyku\Documents\GitHub\DS_1819_Gr22\Base32_Enkoderi_Dekoderi\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.exe
+C:\Users\Meriton Kycyku\Documents\GitHub\DS_1819_Gr22\Base32_Enkoderi_Dekoderi\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.pdb
