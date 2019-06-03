@@ -1,1 +1,0 @@
-Detyra.txt.asc.gpg është e enkriptuar me çelësin publik të asistentit Edon që ishte në PDF.
