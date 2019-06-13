@@ -39,19 +39,19 @@ namespace WindowsFormsApp2
             StringBuilder karakteri = new StringBuilder();
             StringBuilder kryesorja = new StringBuilder();
                        
-            int numri = 0;
+            //int numri = 0;
 
             while ((sb.Length % 5 != 0) || (sb.Length % 8 != 0))
             { sb.Append(0); }
             string krye = sb.ToString();
 
-            for (numri = 0; numri < krye.Length; numri++)
+            for (int numri = 0; numri < krye.Length; numri++)
             {
                 karakteri.Append(krye[numri]);
 
                 if (karakteri.Length % 5 == 0)
                 {
-                    if ((karakteri.ToString() == "00000")&&(numri>(krye.Length-25)))
+                    if ((karakteri.ToString() == "00000")&&(numri>(krye.Length-15)))
                     {
                         kryesorja.Append("=");
                     }
@@ -87,6 +87,14 @@ namespace WindowsFormsApp2
                 {
                     karakteri.Clear();
                 }
+            }
+            char[] digits = new char[32];
+            for (int i = 65; i < 91; i++)
+            {
+                //for (int j = 0; j < 26; j++)
+
+                    digits[i-65] = (char)i;
+                
             }
 
 
@@ -130,7 +138,7 @@ namespace WindowsFormsApp2
             }
             string rsa = karakteri.ToString();
 
-            StringBuilder builder = new StringBuilder();
+            
             byte[] bArr = new byte[rsa.Length / 8];
             for (int i = 0; i < rsa.Length / 8; i++)
             {
