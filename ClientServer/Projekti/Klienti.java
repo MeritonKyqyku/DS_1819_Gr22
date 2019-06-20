@@ -5,6 +5,7 @@ import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Date;
 import java.security.InvalidAlgorithmParameterException;
@@ -12,9 +13,12 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -37,10 +41,12 @@ import javax.xml.bind.DatatypeConverter;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -53,33 +59,7 @@ import javafx.scene.text.FontWeight;
 
 
 public class Klienti extends Application {
-//	private static Connection DBConnection;
-//	public static Connection getDBConnection()
-//	{
-//		try {
-//			Class.forName("com.mysql.jdbc.Driver");
-//			DBConnection=DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteka?useTimezone=true&serverTimezone=UTC","root","65280");
-//		}
-//		catch (SQLException | ClassNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//		return DBConnection;
-//	}
-	
-//	public static void setDbConnection(Connection dbConnection)
-//	{
-//		try {
-//			//Ketu e kam ba lidhjen me databaze, veq jepni vlera se qysh i ka MYSQL i juve edhe funksionon
-//			String dbUser="root";
-//			String dbPassword="";
-//			Class.forName("com.mysql.jdbc.Driver");
-//			dbConnection=DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteka?useTimezone=true&serverTimezone=UTC",dbUser,dbPassword);
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
+
 	
 	public static String generateHash(String pass,String salt)
 	{
@@ -147,94 +127,172 @@ public class Klienti extends Application {
 			LoginBtn.setOnAction(e->{
 			try {
 				Soketti(usernameIn,passwordIn);
+				
 			} catch (IOException | InvalidAlgorithmParameterException e1) {
+				e1.printStackTrace();
+			} catch (IllegalBlockSizeException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (BadPaddingException e1) {
+				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
 	}
-	public void Soketti(TextField usernameIn, PasswordField passwordIn)  throws IOException, InvalidAlgorithmParameterException {
-		String User=usernameIn.getText();
+	public void Soketti(TextField usernameIn, PasswordField passwordIn)  throws IOException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+		String User = null;
 		
 		
 		
-//		try {
-//			enkripto("12345678",Cipher.ENCRYPT_MODE,usernameIn,User);
-//			System.out.println("u enkriptuaa");
-//		}
-//		catch(InvalidKeyException | NoSuchAlgorithmException|InvalidKeySpecException|NoSuchPaddingException|IOException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			enkripto(usernameIn,passwordIn);
+			System.out.println("u enkriptuaa");
+		}
+		catch(InvalidKeyException | NoSuchAlgorithmException|InvalidKeySpecException|NoSuchPaddingException|IOException e) {
+			System.out.println("GABIMI TE ENKRIPTO");
+		}
+	
+	}
+	public static void enkripto(TextField in,TextField pas) throws InvalidKeyException,NoSuchAlgorithmException,InvalidKeySpecException,
+	NoSuchPaddingException,IOException,InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException{
+			String ini=(in.getText()+"@"+pas.getText());
 		
-		
-		
-		
-//		DBConnection=getDBConnection();
-		
+
+			
+			String key="12345678";
+			
+			
+			try{
+
+				 DESKeySpec desKeySpec=new DESKeySpec(key.getBytes());
+				 SecretKeyFactory skf=SecretKeyFactory.getInstance("DES");
+				 SecretKey myDesKey = skf.generateSecret(desKeySpec);
+			    
+			    Cipher desCipher;
+
+			    // Create the cipher 
+			    desCipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+			    
+			    // Initialize the cipher for encryption
+			    desCipher.init(Cipher.ENCRYPT_MODE, myDesKey);
+
+			    //sensitive information
+			    byte[] text = ini.getBytes();
+			    System.out.println("Text : " + new String(text));
+			   
+			    // Encrypt the text
+			    byte[] textEncrypted = desCipher.doFinal(text);
+
+			    System.out.println("Text Encryted : " + textEncrypted);
+			    
+			    DatagramSocket socket = new DatagramSocket();
+			    System.out.println("### socket.getLocalPort():" + socket.getLocalPort() + " | socket.getPort(): " + socket.getPort());
+
+			    // send request
+			    byte[] buf =textEncrypted;
+			    
+			    InetAddress address = InetAddress.getByName("localhost");
+			    DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 12340);
+			    socket.send(packet);
+			    
+
+			    // get response
+//			    packet = new DatagramPacket(buf, buf.length);
+			    
+			    byte[] receiveData=new byte [1024] ;
+	
+			    DatagramPacket receivePacket=new DatagramPacket(receiveData, receiveData.length);
+			    socket.receive(receivePacket);
+			    
+			    
+			    	
+			    
+			    String s=new String(receivePacket.getData());
+			    if(s.length()>0) {
+				  Alert a = new Alert(AlertType.NONE);
+				  System.out.println("Got the response back from server."+"\n"+s);
+			    
+		          String useriT= new String(s);
+		          String[] arrOfStr =useriT.split("@", 5);
+		          
+		          String usernamei=arrOfStr[0];
+		          String pozitta=arrOfStr[1];
+		          String rroga=arrOfStr[2];
+		          String stazhi=arrOfStr[3];
+		          
+		          a.setAlertType(AlertType.CONFIRMATION); 
+		          a.setContentText("Keni Loguar me sukses"+"\n"+"\n Useri : "+usernamei+"\n Pozita : "+pozitta+"\n Rroga : "+rroga+"\n Stazhi : "+stazhi);
+		            
+		          a.show();	
+		    			
+		    		
+		          
+		          
+			   
+			   
+
+			    socket.close();
+			    // Initialize the same cipher for decryption
+			    }
+			    
+			}catch(NoSuchAlgorithmException e){
+				e.printStackTrace();
+			}catch(NoSuchPaddingException e){
+				e.printStackTrace();
+			}catch(InvalidKeyException e){
+				e.printStackTrace();
+			}catch(IllegalBlockSizeException e){
+				e.printStackTrace();
+			}catch(BadPaddingException e){
+				e.printStackTrace();
+			} 
+		   
 		
 		// get a datagram socket
-        DatagramSocket socket = new DatagramSocket();
-        System.out.println("### socket.getLocalPort():" + socket.getLocalPort() + " | socket.getPort(): " + socket.getPort());
-
-        // send request
-        byte[] buf =usernameIn.getText().getBytes();
-        byte[] buf1=passwordIn.getText().getBytes();
-        InetAddress address = InetAddress.getByName("localhost");
-        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 12340);
-        socket.send(packet);
-        DatagramPacket packet1 =new DatagramPacket(buf1,buf1.length,address,12340);
-        socket.send(packet1);
-
-        // get response
-        packet = new DatagramPacket(buf, buf.length);
-        
-        byte[] receiveData=new byte [1024] ;
- 
-        DatagramPacket receivePacket=new DatagramPacket(receiveData, receiveData.length);
-        socket.receive(receivePacket);
-        String s=new String(receivePacket.getData());
-        System.out.println("Got the response back from server."+"\n"+s);
-//        socket.receive(packet1);
-//        System.out.println(packet1);
-
-        // display response
-//        String received = new String(packet.getData());
-//        String recived1=new String(packet1.getData());
-//        System.out.println("Quote of the Moment: " + received+recived1);
-
-        socket.close();
-        
-		
-	}
-	public static void enkripto(String key,int cipherMode,TextField in,String out) throws InvalidKeyException,NoSuchAlgorithmException,InvalidKeySpecException,
-	NoSuchPaddingException,IOException,InvalidAlgorithmParameterException{
-			InputStream teksti = null;
-			OutputStream Dalja = null;
-			DESKeySpec desKeySpecs= new DESKeySpec(key.getBytes());
-			SecretKeyFactory skf=SecretKeyFactory.getInstance("DES");
-			SecretKey secretKey=skf.generateSecret(desKeySpecs);
-			byte[] ivBytes=new byte[8];
-			IvParameterSpec iv=new IvParameterSpec(ivBytes);
-			
-			
-			Cipher cipher=Cipher.getInstance("DES/CBC/PKCS5Padding");
-			if(cipherMode ==Cipher.ENCRYPT_MODE) {
-				cipher.init(Cipher.ENCRYPT_MODE,secretKey,iv,SecureRandom.getInstance("SHA1PRNG"));
-				CipherInputStream cis=new CipherInputStream(teksti,cipher);
-				write(cis,Dalja);
+				
 			}
 			
 			
-			
-	}
-	public static void write(InputStream in,OutputStream out) throws IOException {
-		byte [] buffer=new byte[64];
-		int numOfButesRead =0;
-		while((numOfButesRead - in.read(buffer))!= -1) {
-			out.write(buffer,0,numOfButesRead);
-		}
-		out.close();
-		in.close();
-	}
+	
+//	public static void write(InputStream cis,OutputStream out, CipherInputStream cys, OutputStream dalje) throws IOException, InterruptedException {
+//		byte[] buffer= new byte[64];
+//		int numOfBytesRead = 0;
+//		while((numOfBytesRead-cis.read(buffer))!=-1) {
+//			out.write(buffer,0,numOfBytesRead);
+//		}
+//		
+//		
+////		String ini=in.toString();
+////		String con=ini.substring(31);
+////		String ini1=out.toString();
+////		String con1=ini1.substring(31);
+//		out.close();
+//		cis.close();
+//		DatagramSocket socket = new DatagramSocket();
+//        System.out.println("### socket.getLocalPort():" + socket.getLocalPort() + " | socket.getPort(): " + socket.getPort());
+//        
+//        
+//
+//        // send request
+//        byte[] buf =new byte [cis.available()];
+//        System.out.println("ka sukses qetu");
+//        
+//        InetAddress address = InetAddress.getByName("localhost");
+//        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 12340);
+//        socket.send(packet);
+//       
+
+        // get response
+//        packet = new DatagramPacket(buf, buf.length);
+//        
+//        byte[] receiveData=new byte [1024] ;
+// 
+//        DatagramPacket receivePacket=new DatagramPacket(receiveData, receiveData.length);
+//        socket.receive(receivePacket);
+//        String s=new String(receivePacket.getData());
+//        System.out.println("Got the response back from server."+"\n"+s);
+		
+	
 	
 	public static void main(String[] args) throws IOException
 

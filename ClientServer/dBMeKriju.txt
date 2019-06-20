@@ -1,0 +1,11 @@
+create table puntori(
+username varchar(30),
+pass char(32),
+salt char(32),
+pozita varchar(30),
+rroga decimal,
+stazhi varchar(30),
+Primary key (username));
+
+use pun;
+insert into puntori(username,pass,salt,pozita,rroga,stazhi) values("admin","9a1629725f1282bb20ead61a8e09100c","5814578964","admin",425.35,"admin");
