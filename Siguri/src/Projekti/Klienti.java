@@ -200,7 +200,7 @@ public class Klienti extends StackPane {
 //			    packet = new DatagramPacket(buf, buf.length);
 			    
 			    byte[] receiveData=new byte [1024] ;
-	
+				
 			    DatagramPacket receivePacket=new DatagramPacket(receiveData, receiveData.length);
 			    socket.receive(receivePacket);
 			    
@@ -211,34 +211,19 @@ public class Klienti extends StackPane {
 			    if(s.length()>0) {
 				  Alert a = new Alert(AlertType.NONE);
 				  System.out.println("Got the response back from server."+"\n"+s);
-				  
-				  
+			    
 		          String useriT= new String(s);
 		          String[] arrOfStr =useriT.split("@", 5);
-		          if(arrOfStr[0].matches("admin"))
-		          {
-		        	  System.out.println("You are the admin!");
-		        	  Coordinator.setAdminPane();
-		          }
-		          else
-		          {
-			          
-			          
-			          String usernamei=arrOfStr[0];
-			          String pozitta=arrOfStr[1];
-			          String rroga=arrOfStr[2];
-			          String stazhi=arrOfStr[3];
-		         
 		          
-			          a.setAlertType(AlertType.CONFIRMATION); 
-			          a.setContentText("Keni Loguar me sukses"+"\n"+"\n Useri : "+usernamei+"\n Pozita : "+pozitta+"\n Rroga : "+rroga+"\n Stazhi : "+stazhi);
-			            
-			          a.show();	
-		          }
-		    			
-		    		
+		          String usernamei=arrOfStr[0];
+		          String pozitta=arrOfStr[1];
+		          String rroga=arrOfStr[2];
+		          String stazhi=arrOfStr[3];
 		          
-		          
+		          a.setAlertType(AlertType.CONFIRMATION); 
+		          a.setContentText("Keni Loguar me sukses"+"\n"+"\n Useri : "+usernamei+"\n Pozita : "+pozitta+"\n Rroga : "+rroga+"\n Stazhi : "+stazhi);
+		            
+		          a.show();	
 			   
 			   
 

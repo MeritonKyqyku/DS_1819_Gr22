@@ -16,7 +16,7 @@ public class Coordinator {
 	{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			DBConnection=DriverManager.getConnection("jdbc:mysql://localhost:3306/Punetoret?useTimezone=true&serverTimezone=UTC","root","65280");
+			DBConnection=DriverManager.getConnection("jdbc:mysql://localhost:3306/pun?useTimezone=true&serverTimezone=UTC","root","");
 		}
 		catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
@@ -29,9 +29,9 @@ public class Coordinator {
 		try {
 			//Ketu e kam ba lidhjen me databaze, veq jepni vlera se qysh i ka MYSQL i juve edhe funksionon
 			String dbUser="root";
-			String dbPassword="65280";
+			String dbPassword="";
 			Class.forName("com.mysql.jdbc.Driver");
-			dbConnection=DriverManager.getConnection("jdbc:mysql://localhost:3306/Punetoret?useTimezone=true&serverTimezone=UTC",dbUser,dbPassword);
+			dbConnection=DriverManager.getConnection("jdbc:mysql://localhost:3306/pun?useTimezone=true&serverTimezone=UTC",dbUser,dbPassword);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -49,6 +49,11 @@ public class Coordinator {
 	{
 		Scene admin=new Scene(new memberespane());
 		primaryClass.primaryStage.setScene(admin);
+	}
+	public static void setindex() throws IOException
+	{
+		Scene index=new Scene(new index());
+		primaryClass.primaryStage.setScene(index);
 	}
 
 }

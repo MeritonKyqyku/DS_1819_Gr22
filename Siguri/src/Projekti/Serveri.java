@@ -255,7 +255,7 @@ public class Serveri {
 					  
 					  
 					  String dbUser="root";
-					  String dbPassword="65280";
+					  String dbPassword="";
 					  Class.forName("com.mysql.jdbc.Driver");
 					  Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/pun?useTimezone=true&serverTimezone=UTC",dbUser,dbPassword);
 					  Statement stmt = conn.createStatement();

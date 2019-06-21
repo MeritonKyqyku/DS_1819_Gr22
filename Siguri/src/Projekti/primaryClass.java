@@ -17,7 +17,7 @@ public class primaryClass extends Application {
 	public void start(Stage stage) throws IOException
 	{
 		primaryClass.primaryStage=stage;
-		Coordinator.setLoginPane();
+		Coordinator.setindex();
 		stage.setResizable(false);
 		stage.show();
 	}

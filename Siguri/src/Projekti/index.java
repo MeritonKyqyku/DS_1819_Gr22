@@ -1,5 +1,7 @@
 package Projekti;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,7 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class index extends StackPane {
-	public index (Stage primaryStage) {
+	index () {
 	
 		StackPane pane=new StackPane();
 		VBox vBox=new VBox();
@@ -25,7 +27,7 @@ public class index extends StackPane {
 		
 		Text head=new Text("Members");
 		head.setTranslateX(20);
-		head.setFont(Font.font("Sans-Seriff",FontWeight.BOLD,30));
+		head.setFont(Font.font("Sans-Seriff",FontWeight.BOLD,42));
 		
 		
 		hBox.getChildren().addAll(head);
@@ -33,33 +35,49 @@ public class index extends StackPane {
 		
 		 
 		
-		Rectangle rect=new Rectangle(300,400,Color.HONEYDEW);
-
-		ImageView addMemberImage=new ImageView();
-		addMemberImage.setFitWidth(100);
-		addMemberImage.setFitHeight(100);
+		Rectangle rect=new Rectangle(1100,900,Color.HONEYDEW);
+//
+//		ImageView addMemberImage=new ImageView();
+//		addMemberImage.setFitWidth(100);
+//		addMemberImage.setFitHeight(100);
 		
-		Button addMemberBtn=new Button();
-		addMemberBtn.setGraphic(addMemberImage);
+		Button addMemberBtn=new Button("Shto Anetar");
+		addMemberBtn.setMinHeight(35);
+		addMemberBtn.setMinWidth(100);
+//		ImageView memberSettingsImage=new ImageView();
+//		memberSettingsImage.setFitWidth(100);
+//		memberSettingsImage.setFitHeight(100);
 		
-		ImageView memberSettingsImage=new ImageView();
-		memberSettingsImage.setFitWidth(100);
-		memberSettingsImage.setFitHeight(100);
+		Button memberSettingsBtn=new Button("Log In");
+		memberSettingsBtn.setMinWidth(100);
+		memberSettingsBtn.setMinHeight(35);
 		
-		Button memberSettingsBtn=new Button();
-		memberSettingsBtn.setGraphic(memberSettingsImage);
 		
 		vBox.getChildren().addAll(hBox,addMemberBtn,memberSettingsBtn);
 		vBox.setSpacing(30);
 		vBox.setAlignment(Pos.CENTER);
-		pane.getChildren().addAll(rect,vBox);
-		Scene scene = new Scene(pane, 900, 700);
-		primaryStage.setTitle("Rrethi i pozicionuar ne mes te dritares"); 
-		primaryStage.setScene(scene); 
-		primaryStage.show(); 
+		getChildren().addAll(rect,vBox);
 		
-//		addMemberBtn.setOnAction(e->Coordinator.setRegistrationPane());
-//		memberSettingsBtn.setOnAction(e->Coordinator.setUpdateMembersPane());
+//		primaryStage.setTitle("Rrethi i pozicionuar ne mes te dritares"); 
+//		primaryStage.setScene(scene); 
+//		primaryStage.show(); 
+//		
+		addMemberBtn.setOnAction(e->{
+			try {
+				Coordinator.setAdminPane();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		memberSettingsBtn.setOnAction(e->{
+			try {
+				Coordinator.setLoginPane();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 	}
 
 }
